@@ -1,0 +1,365 @@
+/* =============================================
+   Waves Stipulations — style.css
+   ============================================= */
+
+/* --- Reset & Base --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: #0a0e1a;
+  color: #d0d8f0;
+  line-height: 1.7;
+}
+
+/* --- Header --- */
+header {
+  background: linear-gradient(135deg, #0d1b3e 0%, #0a2a5e 50%, #061640 100%);
+  border-bottom: 2px solid #1e4fc0;
+  padding: 3rem 1.5rem 2.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 120%, rgba(30, 100, 255, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.header-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  position: relative;
+}
+
+header h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #e8f0ff;
+  text-shadow: 0 0 40px rgba(80, 160, 255, 0.6);
+}
+
+.tagline {
+  margin-top: 0.75rem;
+  font-size: 1.05rem;
+  color: #8aacdd;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --- Navigation --- */
+#main-nav {
+  background: #0d1530;
+  border-bottom: 1px solid #1a2f60;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+#main-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  gap: 0;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+#main-nav a {
+  display: block;
+  padding: 0.85rem 1.2rem;
+  color: #8aacdd;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s, background 0.2s;
+}
+
+#main-nav a:hover {
+  color: #e0edff;
+  background: rgba(30, 80, 200, 0.2);
+}
+
+/* --- Sections --- */
+.section {
+  padding: 4rem 1.5rem;
+}
+
+.section.alt {
+  background: #080d1c;
+}
+
+.section-inner {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+h2 {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  color: #a8c8ff;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #1e3d80;
+}
+
+h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #7aaae0;
+  margin: 1.2rem 0 0.6rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+/* --- Callout --- */
+.callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: rgba(20, 60, 140, 0.3);
+  border-left: 4px solid #2c6bcc;
+  border-radius: 0 8px 8px 0;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.callout-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 0.1rem;
+}
+
+.callout p {
+  margin: 0;
+}
+
+/* --- Two-column layout --- */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 1.5rem 0;
+}
+
+@media (max-width: 640px) {
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Formula box --- */
+.formula-box {
+  background: #060c1e;
+  border: 1px solid #1e3d80;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.formula-box pre {
+  background: #0d1a3a;
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  font-size: 1.1rem;
+  color: #80d8ff;
+  overflow-x: auto;
+  margin: 0.5rem 0;
+}
+
+.formula-box code {
+  font-family: 'Fira Code', 'Courier New', monospace;
+}
+
+/* --- Data table --- */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+}
+
+.data-table th {
+  background: #0d1a3a;
+  color: #a8c8ff;
+  padding: 0.7rem 1rem;
+  text-align: left;
+  border-bottom: 2px solid #1e4fc0;
+}
+
+.data-table td {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid #1a2f55;
+}
+
+.data-table tr:hover td {
+  background: rgba(20, 60, 140, 0.2);
+}
+
+.data-table tr.highlight td {
+  color: #80ffcb;
+  font-weight: 600;
+  background: rgba(0, 60, 40, 0.2);
+}
+
+/* --- Feature list --- */
+.feature-list {
+  list-style: none;
+  margin: 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.feature-list li {
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.feature-list li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: #3a7fd4;
+}
+
+/* --- Simulator --- */
+.sim-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.sim-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: #9ab4d8;
+  min-width: 200px;
+}
+
+.sim-controls input[type="range"] {
+  accent-color: #2c6bcc;
+  cursor: pointer;
+}
+
+.sim-controls select {
+  background: #0d1a3a;
+  color: #d0d8f0;
+  border: 1px solid #1e4fc0;
+  border-radius: 4px;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.sim-output {
+  background: #060c1e;
+  border: 1px solid #1e3d80;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.5rem 1.5rem;
+}
+
+.sim-output .metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px dashed #1a2f55;
+  padding: 0.3rem 0;
+}
+
+.sim-output .metric-label {
+  color: #7a9ac4;
+}
+
+.sim-output .metric-value {
+  font-weight: 600;
+  color: #80d8ff;
+  font-family: 'Fira Code', monospace;
+}
+
+.sim-output .metric-value.warning {
+  color: #ffcc44;
+}
+
+.sim-output .metric-value.active {
+  color: #60ffaa;
+}
+
+#field-canvas {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  border: 1px solid #1e3d80;
+  border-radius: 8px;
+  margin: 1rem auto 0;
+  background: #040810;
+}
+
+/* --- References --- */
+.reference-list {
+  margin: 1.25rem 0 0 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.reference-list li {
+  color: #8aacdd;
+}
+
+.reference-list em {
+  color: #a8c8ff;
+}
+
+/* --- Footer --- */
+footer {
+  background: #060c1e;
+  border-top: 1px solid #1a2f60;
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #4a6a9a;
+}
+
+/* --- Scrollbar styling (webkit) --- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #080d1c;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e3d80;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2c5db0;
+}

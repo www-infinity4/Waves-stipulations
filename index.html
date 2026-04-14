@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Waves Stipulations — Static Potential Well Research</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <h1>Waves Stipulations</h1>
+      <p class="tagline">An investigation into electrostatic propulsion, plasma physics, and the science of dominant charge fields</p>
+    </div>
+  </header>
+
+  <nav id="main-nav">
+    <ul>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#biefeld-brown">Biefeld-Brown Effect</a></li>
+      <li><a href="#work-function">Work Function &amp; Static Charge</a></li>
+      <li><a href="#faraday">Faraday Shielding</a></li>
+      <li><a href="#plasma">Plasma Boundary</a></li>
+      <li><a href="#field-sim">Field Simulator</a></li>
+      <li><a href="#references">References</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- ===== OVERVIEW ===== -->
+    <section id="overview" class="section">
+      <div class="section-inner">
+        <h2>Overview: The Static Potential Well</h2>
+        <p>
+          A <strong>Static Potential Well</strong> is a region of space in which the electrostatic
+          potential energy reaches a local minimum (or maximum), effectively "trapping" or
+          "ruling" the charge state of everything within its reach. Unlike a simple point charge or
+          a uniform electric field, a potential well creates a spatial gradient that governs how
+          nearby charges—and the matter those charges belong to—behave.
+        </p>
+        <div class="callout">
+          <span class="callout-icon">⚡</span>
+          <p>
+            This site examines the intersection of high-voltage electrostatics, alloy material science,
+            and plasma formation to explore whether a craft surrounded by such a field could achieve
+            propulsion, shielding, and environmental dominance simultaneously.
+          </p>
+        </div>
+        <p>
+          The foundational question: <em>Can a carefully engineered metallic alloy maintain a
+          permanent, high-gradient electrostatic charge that warps its local environment into a
+          self-sustaining plasma boundary—without continuous external power input?</em>
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== BIEFELD-BROWN ===== -->
+    <section id="biefeld-brown" class="section alt">
+      <div class="section-inner">
+        <h2>The Biefeld-Brown Effect</h2>
+        <p>
+          In the late 1920s, physicist Paul Alfred Biefeld and engineer Thomas Townsend Brown
+          independently observed that a capacitor with asymmetric electrodes, when charged to a
+          high voltage, produced a net mechanical force directed from the larger (negative) electrode
+          toward the smaller (positive) electrode. This phenomenon became known as the
+          <strong>Biefeld-Brown Effect</strong>.
+        </p>
+
+        <div class="two-col">
+          <div>
+            <h3>Documented Observations</h3>
+            <ul>
+              <li>A charged capacitor suspended on a balance moves toward its positive terminal.</li>
+              <li>The effect scales with voltage (Brown reported useful thrust in the 50–100 kV range).</li>
+              <li>The effect persists in vacuum, though at reduced magnitude, indicating both
+                  ionic-wind and a non-ionic component.</li>
+              <li>Brown's "electrokinetic apparatus" patents (US 2,949,550 and US 3,187,206) describe
+                  disc-shaped craft that convert electrostatic energy directly into thrust.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Proposed Mechanisms</h3>
+            <ul>
+              <li><strong>Ionic Wind (EHD):</strong> Electrohydrodynamic drag on air molecules
+                  ionised near the sharp electrode creates a fluid thrust.</li>
+              <li><strong>Electrostatic Pressure:</strong> A charge asymmetry produces a net
+                  radiation-pressure-like impulse on the capacitor body itself.</li>
+              <li><strong>Asymmetric Capacitance Gradient:</strong> The electric field lines
+                  concentrate on one face, producing an imbalanced Maxwell stress tensor.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="formula-box">
+          <h3>Maxwell Stress Tensor (simplified)</h3>
+          <p>The electrostatic pressure on a surface element is:</p>
+          <pre><code>P = ε₀/2 · E²</code></pre>
+          <p>
+            where <em>ε₀</em> is the permittivity of free space (8.85 × 10⁻¹² F/m) and
+            <em>E</em> is the local electric field magnitude (V/m).
+            An asymmetric body with E<sub>front</sub> ≫ E<sub>back</sub> experiences a net force.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== WORK FUNCTION ===== -->
+    <section id="work-function" class="section">
+      <div class="section-inner">
+        <h2>Work Function &amp; the Electrostatic Alloy</h2>
+        <p>
+          The <strong>work function</strong> (Φ) of a material is the minimum energy required to
+          remove an electron from its surface into a vacuum. A high work function material holds
+          onto its electrons tightly—meaning it can sustain a strong surface charge without
+          spontaneously emitting electrons that would neutralise it.
+        </p>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Material</th>
+              <th>Work Function (eV)</th>
+              <th>Charge Retention</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Cesium (Cs)</td><td>1.95</td><td>Very Low</td></tr>
+            <tr><td>Aluminium (Al)</td><td>4.08</td><td>Moderate</td></tr>
+            <tr><td>Copper (Cu)</td><td>4.65</td><td>Good</td></tr>
+            <tr><td>Gold (Au)</td><td>5.10</td><td>Very Good</td></tr>
+            <tr><td>Platinum (Pt)</td><td>5.65</td><td>Excellent</td></tr>
+            <tr><td>Osmium (Os)</td><td>5.93</td><td>Exceptional</td></tr>
+            <tr class="highlight"><td>Engineered Alloy (target)</td><td>&gt; 6.0</td><td>Permanent-State</td></tr>
+          </tbody>
+        </table>
+
+        <p>
+          By engineering an alloy whose crystal structure presents high-work-function faces on all
+          exposed surfaces—and whose bulk resistivity is low enough to distribute the charge
+          uniformly—it is theoretically possible to create a <em>permanent electrostatic battery</em>:
+          a body that holds a fixed surface charge indefinitely without an external power source,
+          provided the environment does not supply a discharge path.
+        </p>
+
+        <div class="callout">
+          <span class="callout-icon">🔬</span>
+          <p>
+            <strong>Research question:</strong> Can a nanostructured composite of Pt–Os–Ir doped with
+            a wide-bandgap semiconductor (e.g. diamond-like carbon) achieve a macroscopic work function
+            above 6 eV while remaining mechanically robust?
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FARADAY SHIELDING ===== -->
+    <section id="faraday" class="section alt">
+      <div class="section-inner">
+        <h2>Faraday Shielding &amp; Field Dominance</h2>
+        <p>
+          A <strong>Faraday cage</strong> is a conductive enclosure that redistributes external
+          electric fields around its surface, cancelling them inside. A sufficiently charged
+          conductive hull takes this further: instead of passively cancelling external fields, it
+          <em>actively imposes</em> its own field on the surrounding medium.
+        </p>
+
+        <div class="two-col">
+          <div>
+            <h3>Passive Shielding</h3>
+            <p>
+              Standard Faraday cage: external fields induce surface charges that cancel the
+              internal field. The cage is electrically neutral overall. Any incoming
+              electromagnetic wave is attenuated by the skin depth of the conductor.
+            </p>
+          </div>
+          <div>
+            <h3>Active / Dominant Field</h3>
+            <p>
+              A hull carrying a net charge Q creates an external field E = kQ/r².
+              At sufficient charge density, this field ionises the surrounding air, creating a
+              plasma layer. The plasma further reflects incoming EM radiation (plasma frequency
+              cut-off), producing a compound shield: electrostatic + plasma.
+            </p>
+          </div>
+        </div>
+
+        <div class="formula-box">
+          <h3>Plasma Frequency Cut-off</h3>
+          <pre><code>ω_p = √(n·e² / ε₀·m_e)</code></pre>
+          <p>
+            EM waves with frequency below ω<sub>p</sub> cannot propagate through the plasma layer
+            and are reflected. A dense plasma (n ≈ 10¹⁸ m⁻³) cuts off frequencies up to several
+            GHz—covering most radar and communications bands.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PLASMA BOUNDARY ===== -->
+    <section id="plasma" class="section">
+      <div class="section-inner">
+        <h2>Plasma Boundary — The Vacuum Seal</h2>
+        <p>
+          When the electric field at the hull surface exceeds the dielectric breakdown strength of
+          air (~3 MV/m at sea level), the surrounding air ionises into a plasma. This plasma
+          sheath has several remarkable properties:
+        </p>
+
+        <ul class="feature-list">
+          <li>
+            <strong>Aerodynamic drag reduction:</strong> The plasma alters the boundary layer,
+            reducing viscous drag significantly (studies by NASA and USAF have demonstrated drag
+            reduction of 20–40% with plasma actuators).
+          </li>
+          <li>
+            <strong>Radar absorption/reflection:</strong> The plasma layer reflects or absorbs
+            radar frequencies below the plasma frequency, providing stealth characteristics.
+          </li>
+          <li>
+            <strong>Thermal protection:</strong> The ionised sheath stands off re-entry heat in
+            hypersonic vehicles (re-entry plasma is a naturally occurring version of this effect).
+          </li>
+          <li>
+            <strong>Acoustic isolation:</strong> Density discontinuity at the plasma boundary
+            attenuates pressure waves, reducing sonic signature.
+          </li>
+          <li>
+            <strong>Self-sealing:</strong> If the hull charge is maintained, the plasma layer
+            self-repairs around any disturbance, as additional air molecules are immediately
+            ionised to fill the gap.
+          </li>
+        </ul>
+
+        <div class="callout">
+          <span class="callout-icon">🌡️</span>
+          <p>
+            The critical engineering challenge is sustaining the surface charge density required to
+            maintain breakdown (σ &gt; ε₀ · 3×10⁶ V/m ≈ 26.5 μC/m²) continuously across the
+            entire hull, including during manoeuvres that compress or rarefy the plasma on different faces.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FIELD SIMULATOR ===== -->
+    <section id="field-sim" class="section alt">
+      <div class="section-inner">
+        <h2>Interactive Field Simulator</h2>
+        <p>
+          Use the controls below to explore how charge density and geometry affect the electric
+          field strength around a simplified disc-shaped craft hull.
+        </p>
+
+        <div class="sim-controls">
+          <label>
+            Surface Charge Density σ (μC/m²):
+            <input type="range" id="sigma" min="1" max="200" value="30" />
+            <span id="sigma-val">30</span> μC/m²
+          </label>
+          <label>
+            Hull Radius r (m):
+            <input type="range" id="radius" min="1" max="50" value="10" />
+            <span id="radius-val">10</span> m
+          </label>
+          <label>
+            Altitude (affects air density factor):
+            <select id="altitude">
+              <option value="1.0">Sea level</option>
+              <option value="0.74">3 000 m</option>
+              <option value="0.54">6 000 m</option>
+              <option value="0.30">12 000 m</option>
+              <option value="0.08">25 000 m</option>
+              <option value="0.01">Space (vacuum)</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="sim-output" class="sim-output"></div>
+        <canvas id="field-canvas" width="640" height="300"></canvas>
+      </div>
+    </section>
+
+    <!-- ===== REFERENCES ===== -->
+    <section id="references" class="section">
+      <div class="section-inner">
+        <h2>References &amp; Further Reading</h2>
+        <ol class="reference-list">
+          <li>
+            Brown, T. T. (1960). <em>Electrokinetic Apparatus</em>. US Patent 2,949,550.
+          </li>
+          <li>
+            Brown, T. T. (1965). <em>Electrokinetic Transducer</em>. US Patent 3,187,206.
+          </li>
+          <li>
+            Christenson, E. A. &amp; Moller, P. S. (1967).
+            "Ion-Neutral Propulsion in Atmospheric Media."
+            <em>AIAA Journal</em>, 5(10), 1768–1773.
+          </li>
+          <li>
+            Moreau, E. (2007).
+            "Airflow control by non-thermal plasma actuators."
+            <em>Journal of Physics D: Applied Physics</em>, 40(3), 605–636.
+          </li>
+          <li>
+            Griffiths, D. J. (2017).
+            <em>Introduction to Electrodynamics</em> (4th ed.). Cambridge University Press.
+          </li>
+          <li>
+            Lieberman, M. A. &amp; Lichtenberg, A. J. (2005).
+            <em>Principles of Plasma Discharges and Materials Processing</em> (2nd ed.). Wiley.
+          </li>
+          <li>
+            Roth, J. R., Sherman, D. M., &amp; Wilkinson, S. P. (2000).
+            "Electrohydrodynamic Flow Control with a Glow-Discharge Surface Plasma."
+            <em>AIAA Journal</em>, 38(7), 1166–1172.
+          </li>
+          <li>
+            Kittel, C. (2005).
+            <em>Introduction to Solid State Physics</em> (8th ed.). Wiley.
+            (Work functions and surface physics, Ch. 11.)
+          </li>
+          <li>
+            Bazelyan, E. M. &amp; Raizer, Y. P. (1998).
+            <em>Spark Discharge</em>. CRC Press.
+            (Breakdown physics and corona discharge.)
+          </li>
+        </ol>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Waves Stipulations — Open scientific investigation &bull; Content licensed CC BY 4.0</p>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
