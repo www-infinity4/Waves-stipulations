@@ -1,0 +1,1 @@
+fastapi>=0.115,<1\npydantic>=2.10,<3\naiosqlite>=0.20,<1\nuvicorn[standard]>=0.34,<1\n
