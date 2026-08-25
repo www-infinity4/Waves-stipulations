@@ -1,0 +1,666 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://infinity4.dev/schemas/forknight-staging-record-1.0.json",
+  "title": "ForknightStagingRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "candidate_id",
+    "record_revision",
+    "status",
+    "status_history",
+    "capability",
+    "references",
+    "rebuild",
+    "constraints",
+    "verification",
+    "scores",
+    "provenance",
+    "promotion"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "candidate_id": {
+      "type": "string",
+      "pattern": "^cap_[a-z0-9_]+$"
+    },
+    "record_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "discovered",
+        "specified",
+        "rebuilding",
+        "quarantined",
+        "claimed",
+        "testing",
+        "verified",
+        "promoted",
+        "rejected",
+        "blocked",
+        "superseded",
+        "revoked"
+      ]
+    },
+    "status_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "from_status",
+          "to_status",
+          "changed_at",
+          "actor_id",
+          "reason"
+        ],
+        "properties": {
+          "from_status": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "to_status": {
+            "type": "string"
+          },
+          "changed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "actor_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version",
+        "summary",
+        "modes",
+        "inputs",
+        "outputs",
+        "side_effects",
+        "deterministic"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z0-9.-]+$"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "modes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "side_effects": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "deterministic": {
+          "type": "boolean"
+        }
+      }
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "reference_type",
+          "locator_uri",
+          "commit_sha",
+          "license",
+          "usage",
+          "files_reviewed"
+        ],
+        "properties": {
+          "reference_type": {
+            "type": "string",
+            "enum": [
+              "git_repository",
+              "rfc",
+              "documentation",
+              "academic_paper",
+              "observed_service"
+            ]
+          },
+          "locator_uri": {
+            "type": "string",
+            "format": "uri"
+          },
+          "commit_sha": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^(?:[a-fA-F0-9]{40}|[a-fA-F0-9]{64})$"
+          },
+          "license": {
+            "type": "string"
+          },
+          "usage": {
+            "type": "string",
+            "enum": [
+              "specification_only",
+              "behavioral_reference",
+              "source_informed",
+              "derivative"
+            ]
+          },
+          "files_reviewed": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "file_path",
+                "content_digest"
+              ],
+              "properties": {
+                "file_path": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "content_digest": {
+                  "type": "string",
+                  "pattern": "^[a-fA-F0-9]{64}$"
+                }
+              }
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "usage": {
+                  "enum": [
+                    "specification_only",
+                    "behavioral_reference"
+                  ]
+                }
+              },
+              "required": [
+                "usage"
+              ]
+            },
+            "then": {
+              "properties": {
+                "files_reviewed": {
+                  "maxItems": 0
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "usage": {
+                  "enum": [
+                    "source_informed",
+                    "derivative"
+                  ]
+                }
+              },
+              "required": [
+                "usage"
+              ]
+            },
+            "then": {
+              "properties": {
+                "files_reviewed": {
+                  "minItems": 1
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "reference_type": {
+                  "const": "git_repository"
+                }
+              },
+              "required": [
+                "reference_type"
+              ]
+            },
+            "then": {
+              "properties": {
+                "commit_sha": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "rebuild": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "strategy",
+        "implementation_id",
+        "implementation_revision",
+        "target_path",
+        "language",
+        "runtime",
+        "adapter_contract"
+      ],
+      "properties": {
+        "strategy": {
+          "type": "string",
+          "enum": [
+            "independent_reimplementation",
+            "isolated_fork",
+            "wrapped_dependency"
+          ]
+        },
+        "implementation_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "implementation_revision": {
+          "type": "string",
+          "pattern": "^sha256:[a-fA-F0-9]{64}$"
+        },
+        "target_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "language": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runtime": {
+          "type": "string",
+          "minLength": 1
+        },
+        "adapter_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{64}$"
+            }
+          }
+        }
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "network",
+        "filesystem",
+        "max_memory_mb",
+        "timeout_seconds",
+        "supported_platforms",
+        "prohibited_behaviors"
+      ],
+      "properties": {
+        "network": {
+          "type": "string",
+          "enum": [
+            "allowed",
+            "denied",
+            "internal_only"
+          ]
+        },
+        "filesystem": {
+          "type": "string",
+          "enum": [
+            "allowed",
+            "denied",
+            "tmp_only"
+          ]
+        },
+        "max_memory_mb": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "timeout_seconds": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "supported_platforms": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "prohibited_behaviors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_tests",
+        "minimum_coverage_percent",
+        "security_scan",
+        "license_review",
+        "expected_artifacts"
+      ],
+      "properties": {
+        "required_tests": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "minimum_coverage_percent": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "security_scan": {
+          "type": "boolean"
+        },
+        "license_review": {
+          "type": "boolean"
+        },
+        "expected_artifacts": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capability_match",
+        "reference_quality",
+        "implementation_risk",
+        "scored_by",
+        "rule_engine_version",
+        "scored_at"
+      ],
+      "properties": {
+        "capability_match": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "reference_quality": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "implementation_risk": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "scored_by": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rule_engine_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scored_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "discovered_by",
+        "discovered_at",
+        "trace_id"
+      ],
+      "properties": {
+        "discovered_by": {
+          "type": "string",
+          "minLength": 1
+        },
+        "discovered_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "trace_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "external_system": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "external_revision": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "external_revision_verified": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "promotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "tested_commit_sha",
+        "immutable_artifact_digest",
+        "security_clearance",
+        "license_clearance",
+        "approved_by",
+        "approved_at",
+        "verified_artifacts"
+      ],
+      "properties": {
+        "decision": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "approved",
+            "rejected"
+          ]
+        },
+        "tested_commit_sha": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^(?:[a-fA-F0-9]{40}|[a-fA-F0-9]{64})$"
+        },
+        "immutable_artifact_digest": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^sha256:[a-fA-F0-9]{64}$"
+        },
+        "security_clearance": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "passed",
+            "failed"
+          ]
+        },
+        "license_clearance": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "passed",
+            "failed"
+          ]
+        },
+        "approved_by": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "approved_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "verified_artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_type",
+              "sha256_digest",
+              "recorded_at"
+            ],
+            "properties": {
+              "artifact_type": {
+                "type": "string",
+                "enum": [
+                  "test-report",
+                  "security-report",
+                  "provenance-report"
+                ]
+              },
+              "sha256_digest": {
+                "type": "string",
+                "pattern": "^[a-fA-F0-9]{64}$"
+              },
+              "recorded_at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "promoted"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "promotion": {
+            "properties": {
+              "decision": {
+                "const": "approved"
+              },
+              "tested_commit_sha": {
+                "type": "string"
+              },
+              "immutable_artifact_digest": {
+                "type": "string"
+              },
+              "security_clearance": {
+                "const": "passed"
+              },
+              "license_clearance": {
+                "const": "passed"
+              },
+              "approved_by": {
+                "type": "string",
+                "minLength": 1
+              },
+              "approved_at": {
+                "type": "string"
+              },
+              "verified_artifacts": {
+                "type": "array",
+                "minItems": 3,
+                "contains": {
+                  "type": "object",
+                  "properties": {
+                    "artifact_type": {
+                      "const": "test-report"
+                    }
+                  },
+                  "required": [
+                    "artifact_type"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
