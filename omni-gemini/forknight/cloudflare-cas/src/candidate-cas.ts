@@ -5,6 +5,7 @@ import {
   type CasResult,
   type ContentEntry,
   type InitializeInput,
+  type RenewLeaseInput,
   type TransitionInput,
 } from "./contracts";
 
@@ -180,6 +181,51 @@ export class CandidateCasObject extends DurableObject<Cloudflare.Env> {
       this.remember(input.idempotencyKey, result, now);
       return result;
     });
+  }
+
+  renewLease(input: RenewLeaseInput): CasResult {
+    const replay = this.replay(input.idempotencyKey);
+    if (replay) return replay;
+
+    return this.ctx.storage.transactionSync(() => {
+      const row = this.readRow();
+      if (!row) return { applied: false, replayed: false, conflict: "not_initialized" };
+      if (row.candidate_id !== input.candidateId || row.record_revision !== input.expectedRevision) {
+        return { applied: false, replayed: false, conflict: "revision", snapshot: this.toSnapshot(row) };
+      }
+      if ((row.status !== "claimed" && row.status !== "testing") || row.lease_owner !== input.leaseOwner) {
+        return { applied: false, replayed: false, conflict: "lease", snapshot: this.toSnapshot(row) };
+      }
+      const now = Date.now();
+      if (row.lease_expires_at === null || row.lease_expires_at <= now) {
+        return { applied: false, replayed: false, conflict: "lease", snapshot: this.toSnapshot(row) };
+      }
+      const revision = row.record_revision + 1;
+      const expiresAt = now + input.leaseDurationSeconds * 1000;
+      this.ctx.storage.sql.exec(
+        "UPDATE candidate SET record_revision = ?, lease_expires_at = ?, updated_at = ? WHERE singleton = 1",
+        revision,
+        expiresAt,
+        now,
+      );
+      this.ctx.storage.sql.exec(
+        "INSERT INTO transitions VALUES (?, ?, ?, ?, ?, ?, ?)",
+        revision,
+        row.status,
+        row.status,
+        now,
+        input.actorId,
+        input.reason,
+        input.idempotencyKey,
+      );
+      const result: CasResult = { applied: true, replayed: false, snapshot: this.getSnapshot()! };
+      this.remember(input.idempotencyKey, result, now);
+      return result;
+    });
+  }
+
+  getOperationResult(idempotencyKey: string): CasResult | null {
+    return this.replay(idempotencyKey);
   }
 
   getSnapshot(): CandidateSnapshot | null {

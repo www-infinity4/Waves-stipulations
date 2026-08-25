@@ -1,4 +1,6 @@
 import { authorize } from "./auth";
+import { processQueueBatch } from "./consumer";
+import { handleGitHubWebhook } from "./github-adapter";
 import { CandidateCasObject } from "./candidate-cas";
 import {
   isCandidateId,
@@ -62,6 +64,9 @@ function validTransition(value: unknown): value is TransitionRequest {
 export default {
   async fetch(request, env): Promise<Response> {
     try {
+      const webhookMatch = new URL(request.url).pathname.match(/^\/v1\/github\/candidates\/(cap_[a-z0-9_]+)$/);
+      const webhookCandidate = webhookMatch?.[1];
+      if (webhookCandidate) return handleGitHubWebhook(request, env, webhookCandidate);
       if (!(await authorize(request, env.API_TOKEN))) return json({ error: "unauthorized" }, 401);
       const route = candidateFromPath(new URL(request.url).pathname);
       if (!route) return json({ error: "not_found" }, 404);
@@ -117,6 +122,9 @@ export default {
       return json({ error: "internal_error" }, 500);
     }
   },
-} satisfies ExportedHandler<Cloudflare.Env>;
+  async queue(batch, env): Promise<void> {
+    await processQueueBatch(batch, env);
+  },
+} satisfies ExportedHandler<Cloudflare.Env, unknown>;
 
 export { CandidateCasObject };

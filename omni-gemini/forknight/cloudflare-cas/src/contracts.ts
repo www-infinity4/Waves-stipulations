@@ -59,6 +59,16 @@ export interface CasResult {
   snapshot?: CandidateSnapshot;
 }
 
+export interface RenewLeaseInput {
+  candidateId: string;
+  expectedRevision: number;
+  leaseOwner: string;
+  leaseDurationSeconds: number;
+  actorId: string;
+  reason: string;
+  idempotencyKey: string;
+}
+
 export const ALLOWED_TRANSITIONS: Readonly<Record<CandidateStatus, readonly CandidateStatus[]>> = {
   discovered: ["specified", "rejected", "blocked", "superseded"],
   specified: ["rebuilding", "rejected", "blocked", "superseded"],
