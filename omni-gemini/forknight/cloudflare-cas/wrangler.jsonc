@@ -18,6 +18,35 @@
       "new_sqlite_classes": ["CandidateCasObject"]
     }
   ],
+  "queues": {
+    "producers": [
+      {
+        "binding": "TESTING_HANDOFF_QUEUE",
+        "queue": "forknight-testing-handoff"
+      }
+    ],
+    "consumers": [
+      {
+        "queue": "forknight-testing-handoff",
+        "max_batch_size": 10,
+        "max_batch_timeout": 5,
+        "max_retries": 3,
+        "dead_letter_queue": "forknight-testing-handoff-dlq"
+      }
+    ]
+  },
+  "r2_buckets": [
+    {
+      "binding": "REPORTS_BUCKET",
+      "bucket_name": "waves-immutable-reports"
+    }
+  ],
+  "services": [
+    {
+      "binding": "TEST_EXECUTOR",
+      "service": "forknight-test-executor"
+    }
+  ],
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1
