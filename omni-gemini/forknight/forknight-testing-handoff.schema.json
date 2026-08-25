@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://infinity4.dev/schemas/forknight-testing-handoff-1.0.json",
+  "title": "ForknightTestingHandoff",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "candidate_id",
+    "record_revision",
+    "implementation_revision",
+    "target_path",
+    "adapter_contract",
+    "required_tests",
+    "sandbox_policy",
+    "idempotency_key"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "candidate_id": {
+      "type": "string",
+      "pattern": "^cap_[a-z0-9_]+$"
+    },
+    "record_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "implementation_revision": {
+      "type": "string",
+      "pattern": "^sha256:[a-fA-F0-9]{64}$"
+    },
+    "target_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "adapter_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        }
+      }
+    },
+    "required_tests": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "contract",
+          "determinism",
+          "resource-limits",
+          "malformed-input",
+          "visual-regression",
+          "security",
+          "license"
+        ]
+      }
+    },
+    "sandbox_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "network",
+        "filesystem",
+        "max_memory_mb",
+        "timeout_seconds"
+      ],
+      "properties": {
+        "network": {
+          "type": "string",
+          "enum": [
+            "allowed",
+            "denied",
+            "internal_only"
+          ]
+        },
+        "filesystem": {
+          "type": "string",
+          "enum": [
+            "allowed",
+            "denied",
+            "tmp_only"
+          ]
+        },
+        "max_memory_mb": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "timeout_seconds": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "idempotency_key": {
+      "type": "string",
+      "pattern": "^plan_v1_cap_[a-z0-9_]+_rev[1-9][0-9]*_[a-fA-F0-9]{8,64}$"
+    }
+  }
+}
